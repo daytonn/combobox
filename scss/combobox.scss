@@ -1,0 +1,72 @@
+@import "compass";
+
+$width: 150px;
+$selector-width: 19px;
+$selector-height: 22px;
+$combobox-width: ($width + $selector-width) + 6;
+$selected-bg: #ACE0FF;
+$hover-bg: #CCECFF;
+
+#combobox-page {
+    #container {
+        border: none;
+        padding: 20px;
+    }
+}
+
+.combobox {
+    @include clearfix;
+    width: $combobox-width;
+    span.cb-input {
+        display: inline-block;
+        padding: 2px 3px;
+        height: $selector-height - 6 !important;
+    }
+    .cb-input {
+        @include float-left;
+        width: $width + 4;
+        height: $selector-height - 4;
+        border: solid 1px #999;
+        span {
+            @include float-left;
+            display: inline-block;
+        }
+    }
+    .cb-selector {
+        width: $selector-width;
+        height: $selector-height;
+        @include float-right;
+        cursor: pointer;
+        background: url('../images/select-arrow.png') no-repeat;
+    }
+    .cb-options {
+        clear: both;
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+        list-style-position: inside;
+        max-height: 250px;
+        width: $combobox-width - 2;
+        border: solid 1px #999;
+        border-top: none;
+        display: none;
+        li {
+            padding: 3px 5px;
+            border-bottom: solid 1px #999;
+            cursor: pointer;
+            &.last {
+                border-bottom: none;
+            }
+            &.selected {
+                background: $selected-bg;
+            }
+            &:hover,
+            &.hilighted {
+                background: $hover-bg;
+            }
+            &.last {
+                border-bottom: none;
+            }
+        }
+    }
+}

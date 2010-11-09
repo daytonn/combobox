@@ -1,0 +1,76 @@
+/* line 11, ../scss/combobox.scss */
+#combobox-page #container {
+  border: none;
+  padding: 20px;
+}
+
+/* line 17, ../scss/combobox.scss */
+.combobox {
+  overflow: hidden;
+  *zoom: 1;
+  width: 175px;
+}
+/* line 20, ../scss/combobox.scss */
+.combobox span.cb-input {
+  display: inline-block;
+  padding: 2px 3px;
+  height: 16px !important;
+}
+/* line 25, ../scss/combobox.scss */
+.combobox .cb-input {
+  display: inline;
+  float: left;
+  width: 154px;
+  height: 18px;
+  border: solid 1px #999;
+}
+/* line 30, ../scss/combobox.scss */
+.combobox .cb-input span {
+  display: inline;
+  float: left;
+  display: inline-block;
+}
+/* line 35, ../scss/combobox.scss */
+.combobox .cb-selector {
+  width: 19px;
+  height: 22px;
+  display: inline;
+  float: right;
+  cursor: pointer;
+  background: url("../images/select-arrow.png") no-repeat;
+}
+/* line 42, ../scss/combobox.scss */
+.combobox .cb-options {
+  clear: both;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  list-style-position: inside;
+  max-height: 250px;
+  width: 173px;
+  border: solid 1px #999;
+  border-top: none;
+  display: none;
+}
+/* line 53, ../scss/combobox.scss */
+.combobox .cb-options li {
+  padding: 3px 5px;
+  border-bottom: solid 1px #999;
+  cursor: pointer;
+}
+/* line 57, ../scss/combobox.scss */
+.combobox .cb-options li.last {
+  border-bottom: none;
+}
+/* line 60, ../scss/combobox.scss */
+.combobox .cb-options li.selected {
+  background: #ace0ff;
+}
+/* line 64, ../scss/combobox.scss */
+.combobox .cb-options li:hover, .combobox .cb-options li.hilighted {
+  background: #ccecff;
+}
+/* line 67, ../scss/combobox.scss */
+.combobox .cb-options li.last {
+  border-bottom: none;
+}
