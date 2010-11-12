@@ -105,17 +105,17 @@
             var build_control_markup = function(id, options) {
         		var opts = ['<ul class="cb-options" id="' + options_id + '">'];
         		var set_value = '';
-        		var set_label = '&nbsp;';
+        		var set_label = '';
         		$(options).each(function(n) {
         			var css_class = (n == (options.length - 1)) ? 'last' : '';
         			var selected = (this.value == settings.selected || this.label == settings.selected) ? true : false;
         			var select = selected ? 'selected="selected"' : '';
-        			if(selected) {
+        			if (selected) {
         				set_value = this.value;
         				set_label = this.label;
         				set_image = this.img;
         				if (settings.showSelected) {
-        					if(settings.imgSelect) {
+        					if (settings.imgSelect) {
         						opts.push('<li rel="' + this.value + '" class="' + css_class + ' selected"' + select + '  title="' + this.label + '"><img src="' + this.img + '" alt="' + this.value + '" title="' + this.label + '" /></li>');
         					}
         					else {
@@ -124,7 +124,7 @@
         				}
         			}
         			else {
-        				if(settings.imgSelect) {
+        				if (settings.imgSelect) {
         					opts.push('<li rel="' + this.value + '" class="' + css_class + '"' + select + '  title="' + this.label + '"><img src="' + this.img + '" alt="' + this.value + '" title="' + this.label + '"/></li>');
         				}
         				else {
@@ -134,7 +134,7 @@
         		});
         		opts.push('</ul>');
         		var template = '';
-        		if(settings.imgSelect) {
+        		if (settings.imgSelect) {
         			template = '<div id="cb-' + id + '" class="combobox"><span contenteditable="true" id="' + display_input_id + '"class="cb-input" type="text" name="' + display_input_name + '" value="' + set_value + '" rel="' + set_label + '"><img src="' + set_image + '" alt="' + set_value + '" title="' + set_label + '" /></span><div class="cb-selector"><span /></div>' + opts.join("\n") + '</div>';
         		}
         		else {
@@ -150,23 +150,23 @@
         	};
         
         	var set_value = function(value) {
-        		$(opts).each(function(option) {
-        			if(option.value == value) {
-        				selected.label = option.label;
-        				selected.value = option.value;
-        				selected.img = option.img;
+        		$(opts).each(function(i) {
+        			if (opts[i].value == value) {
+        				selected.label = opts[i].label;
+        				selected.value = opts[i].value;
+        				selected.img = opts[i].img;
         			}
         
-        			if(option.label == value) {
-        				selected.label = option.label;
-        				selected.value = option.value;
-        				selected.img = option.img;
+        			if (opts[i].label == value) {
+        				selected.label = opts[i].label;
+        				selected.value = opts[i].value;
+        				selected.img = opts[i].img;
         			}
         		});
-        
+        		
         		jqobj.val(selected.value);
-        
-        		if(settings.imgSelect) {
+        		
+        		if (settings.imgSelect) {
         			display_input.html('<img src="' + selected.img + '" title="' + selected.label + '" />');
         			display_input.attr('rel', selected.value);
         		}
@@ -227,27 +227,36 @@
         		var num_matches = 0;
         		match_list.find('li.match').removeClass('match');
         		match_list.find('li.last').removeClass('last');
-        		opts.each(function(option) {
-        			if(option.label.match(pattern)) {
-        				match_list.find('li[rel=' + option.value + ']').show().addClass('match');
+        		$(opts).each(function(i) {
+        			if (opts[i].label.match(pattern)) {
+        				match_list.find('li[rel=' + opts[i].value + ']').show().addClass('match');
         				num_matches++;
         			}
         			else {
-        				match_list.find('li[rel=' + option.value + ']').hide().removeClass('match');
+        				match_list.find('li[rel=' + opts[i].value + ']').hide().removeClass('match');
         			}
         		});
-        
+                
         		match_list.find('li.match:last').addClass('last');
-        
+                
+        		if(num_matches > 0) {
+        		    match = true;
+        		}
+        		
         		return match;
         	};
         
         	var filter_match_list = function() {
         		search_string = display_input.val();
-        		if(search_string !== '') {
+        		if (search_string !== '') {
         			var match = find_match(search_string);
-        			if(match_list.is(':hidden')) {
-        				show_matches();
+        			if(match) {
+        			    if (match_list.is(':hidden')) {
+            				show_matches();
+            			}
+        			}
+        			else {
+        			    match_list.hide();
         			}
         		}
         		else {
@@ -266,7 +275,7 @@
         
         			case 'enter':
         				var current_hilighted = match_list.find('.hilighted');
-        				if(current_hilighted.length > 0) {
+        				if (current_hilighted.length > 0) {
         					display_input.val(current_hilighted.html());
         					match_list.find('.selected').removeClass('selected');
         					current_hilighted.removeClass('hilighted').addClass('selected');
@@ -279,10 +288,10 @@
         	var navigate = function(direction) {
         		switch(direction) {
         			case "up":
-        				if(!match_list.is(':hidden')) {
+        				if (!match_list.is(':hidden')) {
         					var current_hilighted = match_list.find('.hilighted');
-        					var next_hilighted = current_hilighted.prev('li');
-        					if(next_hilighted.length !== 0) {
+        					var next_hilighted = current_hilighted.prev('li').not(':hidden');
+        					if (next_hilighted.length !== 0) {
         						current_hilighted.removeClass('hilighted');
         						next_hilighted.addClass('hilighted');
         					}
@@ -294,14 +303,14 @@
         			break;
         
         			case "down":
-        				if(match_list.is(':hidden')) {
+        				if (match_list.is(':hidden')) {
         					show_matches();
         					match_list.find('li:first').addClass('hilighted');
         				}
         				else {
         					var current_hilighted = match_list.find('.hilighted');
-        					var next_hilighted = current_hilighted.next('li');
-        					if(!current_hilighted.hasClass('last')) {
+        					var next_hilighted = current_hilighted.next('li').not(':hidden');
+        					if (!current_hilighted.hasClass('last')) {
         						current_hilighted.removeClass('hilighted');
         						next_hilighted.addClass('hilighted');
         					}
@@ -334,7 +343,7 @@
         			break;
         
         			case 'fade':
-        				if(match_list.is(':hidden')) {
+        				if (match_list.is(':hidden')) {
         					match_list.fadeIn(settings.speed);
         				}
         				else {
@@ -350,7 +359,7 @@
         
         	display_input.keyup(function(e) {
         		key = e.keyCode;
-        
+                
         		if (typeof alpha_numeric_chars[key] !== "undefined") {
         			filter_match_list();
         		}
